@@ -120,31 +120,17 @@ class DatabaseTest extends PHPUnit_Extensions_Database_TestCase
     <title>データセット</title>
 
     <para>
-      Data sets are the basic building blocks for both your database fixture as
-      well as the assertions you may make at the end of your test.
       データセットは、あなたのテストの最後に作られるであろうアサーションと同様、データベースフィクスチャー間のための基本的なブロック構築です。
-
-      When
-      returning a data set as a fixture from the <literal>PHPUnit_Extensions_Database_TestCase::getDataSet()</literal>
-      method, the default implementation in PHPUnit will automatically truncate
-      all tables specified and then insert the data from your data set in the
-      order specified by the data set.
-For your convenience there are several
-      different types of data sets that can be used at your convenience.
-
       <literal>PHPUnit_Extensions_Database_TestCase::getDataSet</literal>メソッドからフィクスチャーとしてデータセットが返却されたとき、PHPUnitの標準の実装は自動的に指定された全てのテーブルをトランケートし、データセットにて順番に指定されているデータセットからデータをインサートします。
-      あなたの利便性のため多様なデータ型をあなたの都合にあて使用できます。
-
+      あなたの利便性のため多様なデータ型をあなたの都合にて使用できます。
     </para>
 
     <section id="database.datasets.flatxml">
       <title>Flat XML データセット</title>
       <para>
-        The flat XML data set is a very simple XML format that uses a single
-        XML element for each row in your data set. An example of a flat XML
-        data set is shown in <xref linkend="database.examples.flatxmldataset.xml" />.
-
-
+        フラットXMLデータセットは、あなたのデータセットでの各々の列に
+        単一のXMLエレメントを使用するとてもシンプルなXML形式です。
+        フラットXMLデータセットの例を以下に示します。<xref linkend="database.examples.flatxmldataset.xml" />.
       </para>
       <example id="database.examples.flatxmldataset.xml">
         <title>Flat XML データセット</title>
@@ -189,14 +175,10 @@ For your convenience there are several
 ]]></programlisting>
       </example>
       <para>
-        As you can see the formatting is extremely simple. Each of the elements
-        within the root <literal>&lt;dataset&gt;</literal> element represents a
-        row in the test database with the exception of the last
-        <literal>&lt;current_visitors /&gt;</literal> element (this will be
-        discussed shortly.) The name of the element is the equivalent of a
-        table name in your database. The name of each attribute is the
-        equivalent of a column name in your databases. The value of each
-        attribute is the equivalent of the value of that column in that row.
+        ご覧いただいてる通りフォーマットは非常にシンプルです。各々のルート内の<literal>&lt;dataset&gt;</literal>エレメントは、
+        最後の<literal>&lt;current_visitors /&gt;</literal> エレメント (これについては間もなく話題にするでしょう)を例外として
+        列を表現しています。エレメント名はデータベースでのテーブル名と等価です。各々の属性名はデータベースでのカラム名と等価です。
+        各々の属性値はその列でのカラムの値と同等です。
       </para>
       <para>
         This format, while simple, does have some special considerations. The
@@ -205,12 +187,25 @@ For your convenience there are several
         want to truncate a table and not insert any values by listing that
         table as an element without any attributes. This can be seen in
         <xref linkend="database.examples.flatxmldataset.xml" /> with the
+
+        このフォーマットは、簡単なとき、いくつかの特別な考察を持ちます。これらの
+        初めには空のテーブルをどう扱うということです。デフォルトの操作
+        <literal>CLEAN_INSERT</literal>では、あなたがトランケートしたいテーブルと
+        リストされたテーブルでいかなる属性もないエレメントにいかなる値もインサートしたくないものを定義できます。
+        これは<literal>&lt;current_visitors /&gt;</literal>エレメントにて見てとれます。
+
         <literal>&lt;current_visitors /&gt;</literal> element. The most common
         reason you would want to ensure an empty table as a part of your
         fixture is when your test should be inserting data to that table. The
         less data your database has, the quicker your tests will run. So if I
         where testing my simple blogging software's ability to add comments to
         a post, I would likely change
+
+        あなたのフィクスチャーの一部として空のテーブルを確保したいもっとも共通の理由は
+        あなたのテストがテーブルにデータを挿入すべき時です。あなたのデータベースに少なくともデータがあれば、
+        より早くテストは実行されるでしょう。ポストに追加する機能がある
+        自分のシンプルなブログソフトウェアをテストする際には、私はおそらく空のテーブルにpost_comment変更するでしょう。
+
         <xref linkend="database.examples.flatxmldataset.xml" /> to specify
         <literal>post_comment</literal> as an empty table. When dealing with
         assertions it is often useful to ensure that a table is not being
